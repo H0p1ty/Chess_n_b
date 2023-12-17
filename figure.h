@@ -6,7 +6,7 @@
 #include <Graph_lib/Graph.h>
 #include <Graph_lib/Simple_window.h>
 
-constexpr int a_ascii = 97;  // ascii code of letter 'a'
+constexpr int a_ascii = 'a';
 
 constexpr int chess_yellow = 133;
 
@@ -177,7 +177,7 @@ struct Queen : Figure
     private:
         void horisontal_possible_steps (Coordinate& position, Chessboard& chess, VisualSteps*& steps_representation);
         void vertical_possible_steps (Coordinate& position, Chessboard& chess, VisualSteps*& steps_representation);
-        void diagnal_possible_steps (int x, int y, int x0, int y0, Coordinate& position, Chessboard& chess,
+        void diagnal_possible_steps (int x0, int y0, Coordinate& position, Chessboard& chess,
                                     VisualSteps*& steps_representation);
         void show_possible_steps_HF (int x, int y, int x0, int y0, int d1, int d2, VisualSteps*& steps_representation,
                                     Chessboard& chess);

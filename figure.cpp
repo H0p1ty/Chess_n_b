@@ -260,7 +260,7 @@ VisualSteps* Pawn::show_possible_steps(Coordinate position, Chessboard& chess)  
                 double_step = double_step_reserved;
                 steps_till_reset = steps_till_reset_reserved;
 
-                Frame* tempf;
+                Frame* tempf{nullptr};
                 if (a == 1)
                     tempf = new Frame{chess[x + i][y + decider].center(), chess};
                 if (a == 2)
@@ -803,11 +803,9 @@ VisualSteps* Queen::show_possible_steps(Coordinate position, Chessboard& chess)
     int x0 = int(position.x);
     int y0 = position.y;
 
-    int x, y;
-
     horisontal_possible_steps(position, chess, steps_representation);
     vertical_possible_steps(position, chess, steps_representation);
-    diagnal_possible_steps(x, y, x0, y0, position, chess, steps_representation);
+    diagnal_possible_steps(x0, y0, position, chess, steps_representation);
 
     return steps_representation;
 }
@@ -884,7 +882,7 @@ void Queen::vertical_possible_steps(Coordinate& position, Chessboard& chess, Vis
     }
 }
 
-void Queen::diagnal_possible_steps(int x, int y, int x0, int y0, Coordinate& position, Chessboard& chess,
+void Queen::diagnal_possible_steps(int x0, int y0, Coordinate& position, Chessboard& chess,
                                    VisualSteps*& steps_representation)
 {
     // d1, d2 - decider1, decider2 - those are used to reduce copy + paste
@@ -892,8 +890,8 @@ void Queen::diagnal_possible_steps(int x, int y, int x0, int y0, Coordinate& pos
     {
         for (int d2 = -1; d2 <= 1; d2 += 2)
         {
-            x = int(position.x) + d1;
-            y = position.y + d2;
+            int x = int(position.x) + d1;
+            int y = position.y + d2;
 
             show_possible_steps_HF(x, y, x0, y0, d1, d2, steps_representation, chess);
         }
@@ -978,8 +976,8 @@ int King::correct_step(Cell& c1, Cell& c2, Chessboard& chess, bool ensure_king_i
             }
         }
     }
-    if ((can_do_castling == can_do_castling_reserved) &&
-        !(abs(x2 - x1) <= 1 && abs(y2 - y1) <= 1) || (x2 == x1 && y1 == y2))
+    if ((can_do_castling == can_do_castling_reserved &&
+         !(abs(x2 - x1) <= 1 && abs(y2 - y1) <= 1)) || (x2 == x1 && y1 == y2))
         return false;
     if (change_pos_decider(c2) == false)
         return false;

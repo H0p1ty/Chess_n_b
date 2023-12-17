@@ -188,7 +188,7 @@ void Chessboard::clicked(Cell& c)
                 Cell& c1 = *selected;
                 int x = c.location().x, y = c.location().y;
 
-                int b;
+                int b{};
                 if (step_chooser == black)
                     b = 1;
                 else if(step_chooser == white)
@@ -355,7 +355,7 @@ bool Chessboard::is_mate()
     bool king_flag = false;
     bool rook_flag = false;
 
-    bool can_do_castling_reserved;
+    bool can_do_castling_reserved{};
 
     for(int i = a_ascii; i < a_ascii + N; i++)
     {
