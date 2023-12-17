@@ -55,7 +55,7 @@ struct Cell : Graph_lib::Button
 
     bool has_figure () const { return figure != nullptr; }
 
-    Figure& get_figure ();  // обязательно нужна проверка не нулевой ли указатель checker
+    Figure& get_figure ();  // check for nullptr required
 
     Coordinate location() const; //gets pair {char x , int y} - coordinate of a cell
     private:

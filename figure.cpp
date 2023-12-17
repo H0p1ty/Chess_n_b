@@ -61,7 +61,6 @@ int Pawn::correct_step(Cell& c1, Cell& c2, Chessboard& chess, bool ensure_king_i
 {
     int decider;  // Decides whether to move upwards or downwards
                   // depending on the color of a figure.
-                  // Решает, двигаться ли вверх или вниз, в зависимости от цвета фигуры
 
     // Decides whether to take the figure or not
     bool take_decider;  // If true, it assumes that it's whites' turn
