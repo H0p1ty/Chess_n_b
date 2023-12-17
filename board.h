@@ -3,6 +3,7 @@
 #include <Graph_lib/Graph.h>
 #include <Graph_lib/Simple_window.h>
 #include <iostream>
+#include <memory>
 
 using Graph_lib::Address;
 using Graph_lib::Point;
@@ -80,12 +81,7 @@ struct Chessboard : MyWindow
         Vector_ref<Cell> cells;
 
         //these are made so they don't get out of scope
-        Vector_ref<Pawn> pawns;
-        Vector_ref<Rook> rooks;
-        Vector_ref<Knight> knights;
-        Vector_ref<Bishop> bishops;
-        Vector_ref<Queen> queens;
-        Vector_ref<King> kings;
+        std::vector<std::unique_ptr<Figure>> figures;
 
         Vector_ref<Text> texts;
         

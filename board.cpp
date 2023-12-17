@@ -82,110 +82,84 @@ Chessboard::Chessboard(Point xy) : MyWindow{xy, width, height, "Chessboard"}, x_
 
 void Chessboard::standard_fill()
 {
-    // white pawns
-    for(int i = 0; i < 8; i++)
+// белые пешки
+    for (int i = 0; i < 8; i++)
     {
-        Pawn* temp_pawn = new Pawn(*this, Figure::Type::white);
-        pawns.push_back(temp_pawn);
-        at(char(a_ascii+i),2).attach_figure(pawns[i]);
+        figures.push_back(std::make_unique<Pawn>(*this, Figure::Type::white));
+        at(char(a_ascii + i), 2)
+            .attach_figure(*figures[figures.size() - 1]);
     }
 
-    // black pawns
-    for(int i = 8; i < 16; i++)
+    // чёрные пешки
+    for (int i = 8; i < 16; i++)
     {
-        Pawn* temp_pawn = new Pawn(*this, Figure::Type::black);
-        pawns.push_back(temp_pawn);
-        at(char(a_ascii+i%8),7).attach_figure(pawns[i]);
+        figures.push_back(std::make_unique<Pawn>(*this, Figure::Type::black));
+        at(char(a_ascii + i % 8), 7)
+            .attach_figure(*figures[figures.size() - 1]);
     }
 
+    // белые кони
 
-    // white knights
-    Knight* wn0 = new Knight{*this, Figure::Type::white};
-    Knight* wn1 = new Knight{*this, Figure::Type::white};
+    figures.push_back(std::make_unique<Knight>(*this, Figure::Type::white));
+    figures.push_back(std::make_unique<Knight>(*this, Figure::Type::white));
 
-    knights.push_back(wn0);
-    knights.push_back(wn1);
+    at('b', 1).attach_figure(*figures[figures.size() - 2]);
+    at('g', 1).attach_figure(*figures[figures.size() - 1]);
 
-    at('b',1).attach_figure(knights[0]);
-    at('g',1).attach_figure(knights[1]);
+    // черыне кони
+    figures.push_back(std::make_unique<Knight>(*this, Figure::Type::black));
+    figures.push_back(std::make_unique<Knight>(*this, Figure::Type::black));
 
-    // black knights
-    Knight* bn0 = new Knight{*this, Figure::Type::black};
-    Knight* bn1 = new Knight{*this, Figure::Type::black};
+    at('b', 8).attach_figure(*figures[figures.size() - 2]);
+    at('g', 8).attach_figure(*figures[figures.size() - 1]);
 
-    knights.push_back(bn0);
-    knights.push_back(bn1);
+    // белые слоны
+    figures.push_back(std::make_unique<Bishop>(*this, Figure::Type::white));
+    figures.push_back(std::make_unique<Bishop>(*this, Figure::Type::white));
 
-    at('b',8).attach_figure(knights[2]);
-    at('g',8).attach_figure(knights[3]);
+    at('c', 1).attach_figure(*figures[figures.size() - 2]);
+    at('f', 1).attach_figure(*figures[figures.size() - 1]);
 
-    // white bishops
-    Bishop* wb0 = new Bishop{*this, Figure::Type::white};
-    Bishop* wb1 = new Bishop{*this, Figure::Type::white};
+    // черные слоны
+    figures.push_back(std::make_unique<Bishop>(*this, Figure::Type::black));
+    figures.push_back(std::make_unique<Bishop>(*this, Figure::Type::black));
 
-    bishops.push_back(wb0);
-    bishops.push_back(wb1);
+    at('c', 8).attach_figure(*figures[figures.size() - 2]);
+    at('f', 8).attach_figure(*figures[figures.size() - 1]);
 
-    at('c',1).attach_figure(bishops[0]);
-    at('f',1).attach_figure(bishops[1]);
+    // белые ладьи
+    figures.push_back(std::make_unique<Rook>(*this, Figure::Type::white));
+    figures.push_back(std::make_unique<Rook>(*this, Figure::Type::white));
 
-    // black bishops
-    Bishop* bb0 = new Bishop{*this, Figure::Type::black};
-    Bishop* bb1 = new Bishop{*this, Figure::Type::black};
+    at('a', 1).attach_figure(*figures[figures.size() - 2]);
+    at('h', 1).attach_figure(*figures[figures.size() - 1]);
 
-    bishops.push_back(bb0);
-    bishops.push_back(bb1);
+    // черные ладьи
+    figures.push_back(std::make_unique<Rook>(*this, Figure::Type::black));
+    figures.push_back(std::make_unique<Rook>(*this, Figure::Type::black));
 
-    at('c',8).attach_figure(bishops[2]);
-    at('f',8).attach_figure(bishops[3]);
+    at('a', 8).attach_figure(*figures[figures.size() - 2]);
+    at('h', 8).attach_figure(*figures[figures.size() - 1]);
 
-    // white rooks
-    Rook* wr0 = new Rook{*this, Figure::Type::white};
-    Rook* wr1 = new Rook{*this, Figure::Type::white};
+    // Белый ферзь
+    figures.push_back(std::make_unique<Queen>(*this, Figure::Type::white));
 
-    rooks.push_back(wr0);
-    rooks.push_back(wr1);
+    at('d', 1).attach_figure(*figures[figures.size() - 1]);
 
-    at('a',1).attach_figure(rooks[0]);
-    at('h',1).attach_figure(rooks[1]);
+    // Черный ферзь
+    figures.push_back(std::make_unique<Queen>(*this, Figure::Type::black));
 
-    // black rooks
-    Rook* br0 = new Rook{*this, Figure::Type::black};
-    Rook* br1 = new Rook{*this, Figure::Type::black};
+    at('d', 8).attach_figure(*figures[figures.size() - 1]);
 
-    rooks.push_back(br0);
-    rooks.push_back(br1);
+    // Белый король
+    figures.push_back(std::make_unique<King>(*this, Figure::Type::white));
 
-    at('a',8).attach_figure(rooks[2]);
-    at('h',8).attach_figure(rooks[3]);
+    at('e', 1).attach_figure(*figures[figures.size() - 1]);
 
-    // white king
-    King* wk = new King{*this, Figure::Type::white};
+    // Черный король
+    figures.push_back(std::make_unique<King>(*this, Figure::Type::black));
 
-    kings.push_back(wk);
-
-    at('e',1).attach_figure(kings[0]);
-
-    // black king
-    King* bk = new King{*this, Figure::Type::black};
-
-    kings.push_back(bk);
-
-    at('e',8).attach_figure(kings[1]);
-
-    // white queen
-    Queen* wq = new Queen{*this, Figure::Type::white};
-
-    queens.push_back(wq);
-
-    at('d',1).attach_figure(queens[0]);
-
-    // black queen
-    Queen* bq = new Queen{*this, Figure::Type::black};
-
-    queens.push_back(bq);
-
-    at('d',8).attach_figure(queens[1]);
+    at('e', 8).attach_figure(*figures[figures.size() - 1]);
 }
 
 void Chessboard::clicked(Cell& c)
@@ -374,9 +348,9 @@ bool Chessboard::is_mate()
 
     bool pawn_flag = false;
 
-    bool first_step_reserved;
-    bool double_step_reserved;
-    int steps_till_reset_reserved;
+    bool first_step_reserved{};
+    bool double_step_reserved{};
+    int steps_till_reset_reserved{};
 
     bool king_flag = false;
     bool rook_flag = false;
@@ -465,23 +439,12 @@ bool Chessboard::is_stalemate()
 {
     bool big_statement = true;
 
-    for(int i = 0; i < pawns.size(); i++)
-        if(pawns[i].has_cell())
+    for (int i = 0; i < int(figures.size())-2; ++i) {
+        if (figures[i]->has_cell())
             big_statement = false;
-    for(int i = 0; i < rooks.size(); i++)
-        if(rooks[i].has_cell())
-            big_statement = false;
-    for(int i = 0; i < knights.size(); i++)
-        if(knights[i].has_cell())
-            big_statement = false;
-    for(int i = 0; i < bishops.size(); i++)
-        if(bishops[i].has_cell())
-            big_statement = false;
-    for(int i = 0; i < queens.size(); i++)
-        if(queens[i].has_cell())
-            big_statement = false;
-    for(int i = 0; i < kings.size(); i++)
-        if(!(kings[i].has_cell()))
+    }
+    for(int i = int(figures.size())-2; i < int(figures.size()); i++)
+        if(!(figures[i]->has_cell()))
             throw std::runtime_error("No king!");
 
     return ((!is_check() && is_mate()) || big_statement);

@@ -66,6 +66,10 @@ struct Figure : Graph_lib::Image
 
     void detach () { cell = nullptr; }
 
+    bool double_step{false};
+    int steps_till_reset{0};
+    bool first_step{true};
+
     private:
         bool color;
         static constexpr int r = 0.9 * (80) / 2;
@@ -77,8 +81,7 @@ bool king_is_under_attack (Chessboard& chess, bool is_white);
 struct Pawn : Figure
 {
     Pawn(Graph_lib::Window& win, Figure::Type color)
-        : Figure(win, color, color == Type::white ? "images/wP.png" : "images/bP.png"), first_step{true},
-        double_step{false}, steps_till_reset{0} {}
+        : Figure(win, color, color == Type::white ? "images/wP.png" : "images/bP.png") {}
 
     int correct_step (Cell& c1, Cell& c2, Chessboard& chess, bool ensure_king_is_safe = true);
     VisualSteps* show_possible_steps (Coordinate position, Chessboard& chess) override;
@@ -91,9 +94,7 @@ struct Pawn : Figure
 
     void reset_double_step () override;
 
-    bool double_step;
-    int steps_till_reset;
-    bool first_step;
+
 };
 
 struct King : Figure
